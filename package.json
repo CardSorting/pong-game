@@ -2,7 +2,7 @@
   "name": "pong-game",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://cardsorting.github.io",
+  "homepage": "https://cardsorting.github.io/pong-game",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
