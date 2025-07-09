@@ -43,7 +43,11 @@ function App() {
   };
 
   const handleRestart = () => {
-    setLevel(1);
+    setGameState('game');
+  };
+
+  const handleNextLevel = () => {
+    setLevel(level + 1);
     setGameState('game');
   };
 
@@ -54,7 +58,7 @@ function App() {
       {gameState === 'settings' && <Settings onBack={handleBackToMenu} />}
       {gameState === 'progression' && <Progression onBack={handleBackToMenu} onSelectLevel={handleSelectLevel} highestLevelUnlocked={highestLevelUnlocked} />}
       {gameState === 'game' && <Game level={level} onGameOver={handleGameOver} setLevel={setLevel} />}
-      {gameState === 'gameOver' && <GameOver onRestart={handleRestart} onMenu={handleBackToMenu} result={finalScore.player > finalScore.opponent ? 'victory' : 'defeat'} score={finalScore} level={level} />}
+      {gameState === 'gameOver' && <GameOver onRestart={handleRestart} onMenu={handleBackToMenu} onNextLevel={handleNextLevel} result={finalScore.player > finalScore.opponent ? 'victory' : 'defeat'} score={finalScore} level={level} />}
     </div>
   );
 }

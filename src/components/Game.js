@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './Game.css';
-
+import { getThemeForLevel } from '../themes';
 const Game = ({ level, onGameOver, setLevel }) => {
+  const theme = getThemeForLevel(level);
   const canvasRef = useRef(null);
   const [playerScore, setPlayerScore] = useState(0);
   const [computerScore, setComputerScore] = useState(0);
@@ -28,8 +29,8 @@ const Game = ({ level, onGameOver, setLevel }) => {
       canvas.height = window.innerHeight;
       gameSt.current.ballX = canvas.width / 2;
       gameSt.current.ballY = canvas.height / 2;
-      gameSt.current.ballSpeedX = 8 + (level * 0.5);
-      gameSt.current.ballSpeedY = 3 + (level * 0.25);
+      gameSt.current.ballSpeedX = 5 + (level * 0.3); // Reduced base speed and scaling
+      gameSt.current.ballSpeedY = 2 + (level * 0.15); // Reduced base speed and scaling
     };
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
@@ -37,9 +38,20 @@ const Game = ({ level, onGameOver, setLevel }) => {
     const paddleHeight = 100;
     const paddleWidth = 10;
 
-    const drawRect = (x, y, w, h, color) => {
+    const drawRect = (x, y, w, h, color, style = 'solid') => {
       context.fillStyle = color;
-      context.fillRect(x, y, w, h);
+      if (style === 'glow') {
+        context.shadowBlur = 20;
+        context.shadowColor = color;
+      }
+      if (style === 'striped') {
+        for (let i = 0; i < h; i += 4) {
+          context.fillRect(x, y + i, w, 2);
+        }
+      } else {
+        context.fillRect(x, y, w, h);
+      }
+      context.shadowBlur = 0;
     };
 
     const drawCircle = (x, y, r, color) => {
@@ -53,7 +65,7 @@ const Game = ({ level, onGameOver, setLevel }) => {
       const paddle2YCenter = gameSt.current.paddle2Y + paddleHeight / 2;
       const targetY = gameSt.current.ballY;
       const dy = targetY - paddle2YCenter;
-      const aiSpeed = 0.1 + level * 0.02;
+      const aiSpeed = 0.05 + level * 0.01; // Reduced base speed and scaling
       gameSt.current.paddle2Y += dy * aiSpeed;
     };
 
@@ -102,31 +114,35 @@ const Game = ({ level, onGameOver, setLevel }) => {
     const ballReset = () => {
       gameSt.current.ballX = canvas.width / 2;
       gameSt.current.ballY = canvas.height / 2;
-      gameSt.current.ballSpeedX = -(8 + (level * 0.5));
-      gameSt.current.ballSpeedY = 3 + (level * 0.25);
+      gameSt.current.ballSpeedX = -(5 + (level * 0.3)); // Reduced base speed and scaling
+      gameSt.current.ballSpeedY = 2 + (level * 0.15); // Reduced base speed and scaling
     };
 
     const drawNet = () => {
       for (let i = 0; i < canvas.height; i += 40) {
-        drawRect(canvas.width / 2 - 1, i, 2, 20, 'white');
+        drawRect(canvas.width / 2 - 1, i, 2, 20, theme.netColor);
       }
     };
 
     const drawEverything = () => {
-      drawRect(0, 0, canvas.width, canvas.height, 'black');
-      context.fillStyle = 'white';
+      // Themed background
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.background = theme.background;
+
+      context.fillStyle = theme.fontColor;
       context.font = '30px Arial';
       context.fillText(`Level: ${level}`, canvas.width / 2 - 50, 50);
       drawNet();
-      drawRect(0, gameSt.current.paddle1Y, paddleWidth, paddleHeight, 'white');
+      drawRect(0, gameSt.current.paddle1Y, paddleWidth, paddleHeight, theme.paddleColor, theme.paddleStyle);
       drawRect(
         canvas.width - paddleWidth,
         gameSt.current.paddle2Y,
         paddleWidth,
         paddleHeight,
-        'white'
+        theme.paddleColor,
+        theme.paddleStyle
       );
-      drawCircle(gameSt.current.ballX, gameSt.current.ballY, 10, 'white');
+      drawCircle(gameSt.current.ballX, gameSt.current.ballY, 10, theme.ballColor);
       context.fillText(gameSt.current.playerScore, 100, 100);
       context.fillText(gameSt.current.computerScore, canvas.width - 100, 100);
     };
@@ -160,7 +176,7 @@ const Game = ({ level, onGameOver, setLevel }) => {
       canvas.removeEventListener('mousemove', movePaddle);
       canvas.removeEventListener('touchmove', movePaddle);
     };
-  }, [level]);
+  }, [level, theme]);
 
   useEffect(() => {
     if (playerScore >= winningScore) {

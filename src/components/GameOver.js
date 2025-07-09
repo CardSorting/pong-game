@@ -1,7 +1,7 @@
 import React from 'react';
 import './GameOver.css';
 
-const GameOver = ({ onRestart, onMenu, result, score, level }) => {
+const GameOver = ({ onRestart, onMenu, onNextLevel, result, score, level }) => {
   const title = result === 'victory' ? 'Victory!' : 'Defeat';
 
   return (
@@ -20,7 +20,11 @@ const GameOver = ({ onRestart, onMenu, result, score, level }) => {
       </div>
 
       <div className="game-over-buttons">
-        <button onClick={onRestart}>Retry Level</button>
+        {result === 'victory' ? (
+          <button onClick={onNextLevel}>Next Level</button>
+        ) : (
+          <button onClick={onRestart}>Retry Level</button>
+        )}
         <button onClick={onMenu}>Main Menu</button>
       </div>
     </div>

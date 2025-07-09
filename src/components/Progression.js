@@ -1,5 +1,6 @@
 import React from 'react';
 import './Progression.css';
+import { getThemeForLevel } from '../themes';
 
 const Progression = ({ onBack, onSelectLevel, highestLevelUnlocked }) => {
   const totalLevels = 15; // Example total levels
@@ -9,6 +10,7 @@ const Progression = ({ onBack, onSelectLevel, highestLevelUnlocked }) => {
       id: levelNum,
       name: `Level ${levelNum}`,
       unlocked: levelNum <= highestLevelUnlocked,
+      theme: getThemeForLevel(levelNum),
     };
   });
 
@@ -27,8 +29,10 @@ const Progression = ({ onBack, onSelectLevel, highestLevelUnlocked }) => {
             key={level.id}
             className={`level-item ${level.unlocked ? 'unlocked' : 'locked'}`}
             onClick={() => handleLevelClick(level)}
+            style={{ background: level.unlocked ? level.theme.background : '#333' }}
           >
             <div className="level-number">{level.id}</div>
+            {level.unlocked && <div className="level-theme-name">{level.theme.name}</div>}
           </div>
         ))}
       </div>
