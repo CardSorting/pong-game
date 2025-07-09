@@ -1,0 +1,95 @@
+.game-over-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #0f0c29;
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    padding: 2rem;
+}
+
+.game-over-title {
+    font-size: 6rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+}
+
+.game-over-title.victory {
+    color: #00ffaa;
+    text-shadow: 0 0 15px #00ffaa, 0 0 30px #00ffaa;
+}
+
+.game-over-title.defeat {
+    color: #ff4d4d;
+    text-shadow: 0 0 15px #ff4d4d, 0 0 30px #ff4d4d;
+}
+
+.stats-container {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 2px solid #00bfff;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+}
+
+.stats-container h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #00bfff;
+}
+
+.stats-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.stat-label {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.game-over-buttons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.game-over-buttons button {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    padding: 0.8rem 2.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.game-over-buttons button:hover {
+    background-color: #00bfff;
+    color: #0f0c29;
+    box-shadow: 0 0 20px #00bfff;
+}

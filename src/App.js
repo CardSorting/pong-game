@@ -1,23 +1,60 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Splash from './components/Splash';
+import Menu from './components/Menu';
+import Game from './components/Game';
+import Settings from './components/Settings';
+import GameOver from './components/GameOver';
+import Progression from './components/Progression';
 
 function App() {
+  const [gameState, setGameState] = useState('splash');
+  const [level, setLevel] = useState(1);
+  const [highestLevelUnlocked, setHighestLevelUnlocked] = useState(1); // Start with level 1 unlocked
+  const [finalScore, setFinalScore] = useState({ player: 0, opponent: 0 });
+
+  const handleSplashComplete = () => {
+    setGameState('menu');
+  };
+
+  const handleStartGame = () => {
+    setGameState('progression');
+  };
+
+  const handleOpenSettings = () => {
+    setGameState('settings');
+  };
+
+  const handleSelectLevel = (selectedLevel) => {
+    setLevel(selectedLevel);
+    setGameState('game');
+  };
+
+  const handleBackToMenu = () => {
+    setGameState('menu');
+  };
+
+  const handleGameOver = (success, score) => {
+    setFinalScore(score);
+    if (success && level === highestLevelUnlocked) {
+      setHighestLevelUnlocked(level + 1);
+    }
+    setGameState('gameOver');
+  };
+
+  const handleRestart = () => {
+    setLevel(1);
+    setGameState('game');
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {gameState === 'splash' && <Splash onComplete={handleSplashComplete} />}
+      {gameState === 'menu' && <Menu onStartGame={handleStartGame} onOpenSettings={handleOpenSettings} />}
+      {gameState === 'settings' && <Settings onBack={handleBackToMenu} />}
+      {gameState === 'progression' && <Progression onBack={handleBackToMenu} onSelectLevel={handleSelectLevel} highestLevelUnlocked={highestLevelUnlocked} />}
+      {gameState === 'game' && <Game level={level} onGameOver={handleGameOver} setLevel={setLevel} />}
+      {gameState === 'gameOver' && <GameOver onRestart={handleRestart} onMenu={handleBackToMenu} result={finalScore.player > finalScore.opponent ? 'victory' : 'defeat'} score={finalScore} level={level} />}
     </div>
   );
 }

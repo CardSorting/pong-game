@@ -1,0 +1,78 @@
+.progression-screen {
+    padding: 2rem;
+    text-align: center;
+    background: #0f0c29;
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    min-height: 100vh;
+}
+
+.progression-screen h1 {
+    font-size: 4rem;
+    margin-bottom: 3rem;
+    text-shadow: 0 0 10px #fff, 0 0 20px #00bfff;
+}
+
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+.level-item {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.level-item.unlocked {
+    background-color: #00bfff;
+    color: #0f0c29;
+    border: 3px solid #fff;
+    cursor: pointer;
+    box-shadow: 0 0 15px #00bfff, inset 0 0 10px rgba(255,255,255,0.5);
+}
+
+.level-item.unlocked:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px #00bfff, inset 0 0 15px rgba(255,255,255,0.7);
+}
+
+.level-item.locked {
+    background-color: #333;
+    color: #666;
+    border: 3px solid #555;
+    cursor: not-allowed;
+}
+
+.level-number {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.progression-screen button {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    padding: 0.8rem 2.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.progression-screen button:hover {
+    background-color: #00bfff;
+    color: #0f0c29;
+    box-shadow: 0 0 20px #00bfff;
+}

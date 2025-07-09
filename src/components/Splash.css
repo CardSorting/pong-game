@@ -1,0 +1,10 @@
+.splash-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+    color: #fff;
+    font-size: 3rem;
+    font-family: 'Courier New', Courier, monospace;
+}
