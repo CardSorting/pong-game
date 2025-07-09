@@ -16,7 +16,7 @@ function App() {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    audioRef.current = new Audio('/Untitled.wav');
+    audioRef.current = new Audio(process.env.PUBLIC_URL + '/Untitled.wav');
     audioRef.current.loop = true;
   }, []);
 
