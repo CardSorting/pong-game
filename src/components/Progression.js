@@ -29,7 +29,11 @@ const Progression = ({ onBack, onSelectLevel, highestLevelUnlocked }) => {
             key={level.id}
             className={`level-item ${level.unlocked ? 'unlocked' : 'locked'}`}
             onClick={() => handleLevelClick(level)}
-            style={{ background: level.unlocked ? level.theme.background : '#333' }}
+            style={{
+              background: level.unlocked ? level.theme.background : '#333',
+              borderColor: level.unlocked ? level.theme.paddleColor : '#555',
+              boxShadow: level.unlocked ? `0 0 15px ${level.theme.paddleColor}` : 'none'
+            }}
           >
             <div className="level-number">{level.id}</div>
             {level.unlocked && <div className="level-theme-name">{level.theme.name}</div>}

@@ -6,6 +6,9 @@ const Game = ({ level, onGameOver }) => {
   const canvasRef = useRef(null);
   const [playerScore, setPlayerScore] = useState(0);
   const [computerScore, setComputerScore] = useState(0);
+  const scoreMessageRef = useRef('');
+  const scoreAnimationRef = useRef(null);
+  const isGamePausedRef = useRef(false);
   const winningScore = 5;
 
   const gameSt = useRef({
@@ -70,6 +73,7 @@ const Game = ({ level, onGameOver }) => {
     };
 
     const moveEverything = () => {
+      if (isGamePausedRef.current) return;
       computerAI();
       gameSt.current.ballX += gameSt.current.ballSpeedX;
       gameSt.current.ballY += gameSt.current.ballSpeedY;
@@ -87,7 +91,7 @@ const Game = ({ level, onGameOver }) => {
         } else {
           gameSt.current.computerScore++;
           setComputerScore(gameSt.current.computerScore);
-          ballReset();
+          ballReset(false);
         }
       }
       if (gameSt.current.ballX > canvas.width) {
@@ -103,7 +107,7 @@ const Game = ({ level, onGameOver }) => {
         } else {
           gameSt.current.playerScore++;
           setPlayerScore(gameSt.current.playerScore);
-          ballReset();
+          ballReset(true);
         }
       }
       if (gameSt.current.ballY < 0 || gameSt.current.ballY > canvas.height) {
@@ -111,11 +115,19 @@ const Game = ({ level, onGameOver }) => {
       }
     };
 
-    const ballReset = () => {
-      gameSt.current.ballX = canvas.width / 2;
-      gameSt.current.ballY = canvas.height / 2;
-      gameSt.current.ballSpeedX = -(5 + (level * 0.3)); // Reduced base speed and scaling
-      gameSt.current.ballSpeedY = 2 + (level * 0.15); // Reduced base speed and scaling
+    const ballReset = (playerScored) => {
+      scoreMessageRef.current = playerScored ? 'Player Scores!' : 'Opponent Scores!';
+      isGamePausedRef.current = true;
+      scoreAnimationRef.current = Date.now();
+
+      setTimeout(() => {
+        scoreMessageRef.current = '';
+        isGamePausedRef.current = false;
+        gameSt.current.ballX = canvas.width / 2;
+        gameSt.current.ballY = canvas.height / 2;
+        gameSt.current.ballSpeedX = -(5 + (level * 0.3));
+        gameSt.current.ballSpeedY = 2 + (level * 0.15);
+      }, 1500); // 1.5-second delay
     };
 
     const drawNet = () => {
@@ -128,6 +140,32 @@ const Game = ({ level, onGameOver }) => {
       // Themed background
       context.clearRect(0, 0, canvas.width, canvas.height);
       canvas.style.background = theme.background;
+
+      if (scoreMessageRef.current) {
+        const animationDuration = 1500;
+        const elapsed = Date.now() - scoreAnimationRef.current;
+        const progress = Math.min(elapsed / animationDuration, 1);
+
+        let opacity = 0;
+        if (progress < 0.2) {
+          opacity = progress / 0.2;
+        } else if (progress > 0.8) {
+          opacity = (1 - progress) / 0.2;
+        } else {
+          opacity = 1;
+        }
+
+        const baseFontSize = 60;
+        const maxFontSize = 80;
+        const scaleProgress = Math.sin(progress * Math.PI);
+        const fontSize = baseFontSize + (maxFontSize - baseFontSize) * scaleProgress;
+
+        context.font = `${fontSize}px Orbitron`;
+        context.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        context.textAlign = 'center';
+        context.fillText(scoreMessageRef.current, canvas.width / 2, canvas.height / 2);
+        context.textAlign = 'left';
+      }
 
       context.fillStyle = theme.fontColor;
       context.font = '30px Arial';

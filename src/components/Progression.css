@@ -39,12 +39,10 @@
     color: #fff;
     border: 3px solid #fff;
     cursor: pointer;
-    box-shadow: 0 0 15px #00bfff, inset 0 0 10px rgba(255,255,255,0.5);
 }
 
 .level-item.unlocked:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 25px #00bfff, inset 0 0 15px rgba(255,255,255,0.7);
 }
 
 .level-item.locked {
