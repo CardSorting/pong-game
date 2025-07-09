@@ -1,10 +1,15 @@
 .splash-screen {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #000;
-    color: #fff;
-    font-size: 3rem;
-    font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.flash-text {
+  margin-top: 20px;
+  font-size: 24px;
 }

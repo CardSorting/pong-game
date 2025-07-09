@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 import Splash from './components/Splash';
 import Menu from './components/Menu';
@@ -12,12 +12,42 @@ function App() {
   const [level, setLevel] = useState(1);
   const [highestLevelUnlocked, setHighestLevelUnlocked] = useState(1); // Start with level 1 unlocked
   const [finalScore, setFinalScore] = useState({ player: 0, opponent: 0 });
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio('/Untitled.wav');
+    audioRef.current.loop = true;
+  }, []);
+
+  const playMenuMusic = () => {
+    if (audioRef.current) {
+      audioRef.current.play().catch(error => {
+        console.error("Audio play failed:", error);
+      });
+    }
+  };
+
+  const stopMenuMusic = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  };
 
   const handleSplashComplete = () => {
+    setHasInteracted(true);
     setGameState('menu');
   };
 
+  useEffect(() => {
+    if (gameState === 'menu' && hasInteracted) {
+      playMenuMusic();
+    }
+  }, [gameState, hasInteracted]);
+
   const handleStartGame = () => {
+    stopMenuMusic();
     setGameState('progression');
   };
 
@@ -31,6 +61,7 @@ function App() {
   };
 
   const handleBackToMenu = () => {
+    playMenuMusic();
     setGameState('menu');
   };
 

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './Game.css';
 import { getThemeForLevel } from '../themes';
+
 const Game = ({ level, onGameOver }) => {
   const theme = getThemeForLevel(level);
   const canvasRef = useRef(null);
@@ -10,6 +11,45 @@ const Game = ({ level, onGameOver }) => {
   const scoreAnimationRef = useRef(null);
   const isGamePausedRef = useRef(false);
   const winningScore = 5;
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  const playLaserSound = () => {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    oscillator.type = 'square';
+    oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.1);
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
+  };
+
+  const playExplosionSound = () => {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    oscillator.type = 'noise';
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.5);
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
+  };
+
+  const playHitSound = () => {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    oscillator.type = 'triangle';
+    oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.1);
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
+  };
 
   const gameSt = useRef({
     ballX: 0,
@@ -83,12 +123,14 @@ const Game = ({ level, onGameOver }) => {
           gameSt.current.ballY > gameSt.current.paddle1Y &&
           gameSt.current.ballY < gameSt.current.paddle1Y + paddleHeight
         ) {
+          playLaserSound();
           gameSt.current.ballSpeedX = -gameSt.current.ballSpeedX;
           let deltaY = gameSt.current.ballY - (gameSt.current.paddle1Y + paddleHeight / 2);
           if (deltaY > 10) deltaY = 10;
           if (deltaY < -10) deltaY = -10;
           gameSt.current.ballSpeedY = deltaY * 0.35;
         } else {
+          playExplosionSound();
           gameSt.current.computerScore++;
           setComputerScore(gameSt.current.computerScore);
           ballReset(false);
@@ -99,18 +141,21 @@ const Game = ({ level, onGameOver }) => {
           gameSt.current.ballY > gameSt.current.paddle2Y &&
           gameSt.current.ballY < gameSt.current.paddle2Y + paddleHeight
         ) {
+          playLaserSound();
           gameSt.current.ballSpeedX = -gameSt.current.ballSpeedX;
           let deltaY = gameSt.current.ballY - (gameSt.current.paddle2Y + paddleHeight / 2);
           if (deltaY > 10) deltaY = 10;
           if (deltaY < -10) deltaY = -10;
           gameSt.current.ballSpeedY = deltaY * 0.35;
         } else {
+          playExplosionSound();
           gameSt.current.playerScore++;
           setPlayerScore(gameSt.current.playerScore);
           ballReset(true);
         }
       }
       if (gameSt.current.ballY < 0 || gameSt.current.ballY > canvas.height) {
+        playHitSound();
         gameSt.current.ballSpeedY = -gameSt.current.ballSpeedY;
       }
     };
