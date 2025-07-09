@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './Game.css';
 import { getThemeForLevel } from '../themes';
-const Game = ({ level, onGameOver, setLevel }) => {
+const Game = ({ level, onGameOver }) => {
   const theme = getThemeForLevel(level);
   const canvasRef = useRef(null);
   const [playerScore, setPlayerScore] = useState(0);

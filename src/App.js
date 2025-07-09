@@ -57,7 +57,7 @@ function App() {
       {gameState === 'menu' && <Menu onStartGame={handleStartGame} onOpenSettings={handleOpenSettings} />}
       {gameState === 'settings' && <Settings onBack={handleBackToMenu} />}
       {gameState === 'progression' && <Progression onBack={handleBackToMenu} onSelectLevel={handleSelectLevel} highestLevelUnlocked={highestLevelUnlocked} />}
-      {gameState === 'game' && <Game level={level} onGameOver={handleGameOver} setLevel={setLevel} />}
+      {gameState === 'game' && <Game key={level} level={level} onGameOver={handleGameOver} />}
       {gameState === 'gameOver' && <GameOver onRestart={handleRestart} onMenu={handleBackToMenu} onNextLevel={handleNextLevel} result={finalScore.player > finalScore.opponent ? 'victory' : 'defeat'} score={finalScore} level={level} />}
     </div>
   );
