@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
-import menuMusic from '../public/Untitled.wav';
+import menuMusic from './Untitled.wav';
 import Splash from './components/Splash';
 import Menu from './components/Menu';
 import Game from './components/Game';
