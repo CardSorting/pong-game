@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
+import menuMusic from '../public/Untitled.wav';
 import Splash from './components/Splash';
 import Menu from './components/Menu';
 import Game from './components/Game';
@@ -16,7 +17,7 @@ function App() {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    audioRef.current = new Audio(process.env.PUBLIC_URL + '/Untitled.wav');
+    audioRef.current = new Audio(menuMusic);
     audioRef.current.loop = true;
   }, []);
 
