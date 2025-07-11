@@ -9,7 +9,7 @@ import GameOver from './components/GameOver';
 import Progression from './components/Progression';
 
 function App() {
-  const [gameState, setGameState] = useState('splash');
+  const [gameState, setGameState] = useState('menu');
   const [level, setLevel] = useState(1);
   const [highestLevelUnlocked, setHighestLevelUnlocked] = useState(1); // Start with level 1 unlocked
   const [finalScore, setFinalScore] = useState({ player: 0, opponent: 0 });
