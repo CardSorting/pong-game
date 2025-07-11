@@ -93,3 +93,30 @@
     color: #0f0c29;
     box-shadow: 0 0 20px #00bfff;
 }
+
+@media (max-width: 768px) {
+    .game-over-title {
+        font-size: 4rem;
+    }
+
+    .stats-container h2 {
+        font-size: 2rem;
+    }
+
+    .stat-label {
+        font-size: 1rem;
+    }
+
+    .stat-value {
+        font-size: 1.2rem;
+    }
+
+    .game-over-buttons {
+        flex-direction: column;
+    }
+
+    .game-over-buttons button {
+        font-size: 1rem;
+        padding: 0.8rem 2rem;
+    }
+}

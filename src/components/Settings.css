@@ -31,3 +31,18 @@
     cursor: pointer;
     font-family: 'Courier New', Courier, monospace;
 }
+
+@media (max-width: 768px) {
+    .settings-screen h1 {
+        font-size: 2rem;
+    }
+
+    .settings-options p {
+        font-size: 1.2rem;
+    }
+
+    .settings-screen button {
+        font-size: 1.2rem;
+        padding: 0.8rem 1.5rem;
+    }
+}

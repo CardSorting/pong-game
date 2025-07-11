@@ -15,6 +15,7 @@ const Splash = ({ onComplete }) => {
     };
 
     window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener('touchstart', handleKeyPress);
 
     const interval = setInterval(() => {
       setShowText(prev => !prev);
@@ -22,6 +23,7 @@ const Splash = ({ onComplete }) => {
 
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('touchstart', handleKeyPress);
       clearInterval(interval);
     };
   }, [onComplete]);
@@ -31,7 +33,7 @@ const Splash = ({ onComplete }) => {
       <div className="title-container">
         <h1 className="title-retro">PONG</h1>
       </div>
-      {showText && <p className="flash-text">Press any key to start</p>}
+      {showText && <p className="flash-text">Press any key or tap to start</p>}
     </div>
   );
 };

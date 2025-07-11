@@ -50,3 +50,13 @@
     opacity: 0.5;
   }
 }
+
+@media (max-width: 768px) {
+  .title-retro {
+    font-size: 60px;
+  }
+
+  .flash-text {
+    font-size: 18px;
+  }
+}

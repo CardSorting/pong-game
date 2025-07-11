@@ -83,3 +83,14 @@
 .menu-screen button:hover::before {
     width: 100%;
 }
+
+@media (max-width: 768px) {
+    .menu-screen h1 {
+        font-size: 4rem;
+    }
+
+    .menu-screen button {
+        font-size: 1.2rem;
+        padding: 0.8rem 2rem;
+    }
+}
